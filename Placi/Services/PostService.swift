@@ -1,6 +1,5 @@
 import Foundation
 import Supabase
-import PostgREST
 
 struct PostService {
 
@@ -173,14 +172,15 @@ struct PostService {
     // MARK: - Comments
 
     static func fetchComments(postId: UUID) async throws -> [Comment] {
-        try await supabase
+        let all: [Comment] = try await supabase
             .from("comments")
             .select("*, profiles(*)")
             .eq("post_id", value: postId)
-            .is("parent_id", value: AnyJSON.null)
             .order("created_at", ascending: true)
             .execute()
             .value
+        // Filter top-level comments in Swift — avoids IS NULL API ambiguity
+        return all.filter { $0.parentId == nil }
     }
 
     static func addComment(postId: UUID, userId: UUID, body: String, parentId: UUID? = nil) async throws -> Comment {
