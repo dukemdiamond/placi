@@ -60,5 +60,7 @@ targets:
           - Default
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.placi.app
+        PRODUCT_BUNDLE_IDENTIFIER: com.dukemdiamond.placi
         INFOPLIST_FILE: Placi/Info.plist
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: ""
