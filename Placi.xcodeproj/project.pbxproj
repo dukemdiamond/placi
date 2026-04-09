@@ -49,9 +49,12 @@
 		D2474A1B6251564C02E2BA98 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C1A676EE2BB09F9A3EBD3 /* ProfileView.swift */; };
 		D3A4F1B47302F9E33AC79718 /* PlaciScoreBadge.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEB04875F69F7E467271B0EB /* PlaciScoreBadge.swift */; };
 		DA1F5D0E3C259EC891E6C616 /* PostFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CCF332F6AFB4CBA5F207AFF1 /* PostFormView.swift */; };
+		DAA413EE253BB6FF91F794A8 /* AuthenticationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1E2D24526B578F47E9CB2566 /* AuthenticationServices.framework */; };
+		DBE4F6694FD6A8ECD9E94D35 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4164B80AFCF2431EDD11F3DA /* MapKit.framework */; };
 		E1FE847050491F62B3259FFA /* PlaceSearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0571BA9313366E0D73DA59BE /* PlaceSearchView.swift */; };
 		E70C090ECE0F0C109219C4BF /* ImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = DE208D9299DF43AAE1A34016 /* ImageService.swift */; };
 		E852BFFD7440D83989F58FC2 /* MapViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 302E4D37DAC287EC3A5F3128 /* MapViewModel.swift */; };
+		EE8E26CD032D9C5243111720 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C111694B3DF6717CD0C20D08 /* CoreLocation.framework */; };
 		EF84CD5757295C55D188B504 /* Supabase in Frameworks */ = {isa = PBXBuildFile; productRef = 905A58A5B80AA7C60D459320 /* Supabase */; };
 		F3DE4C5D8AB06FBD312DF3FA /* PlaceAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27A86C08E93687C40E740F28 /* PlaceAnnotationView.swift */; };
 		F778A601B9817CF2E4E6B38C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C97AEC903EF6EB3E560C72B /* ProfileViewModel.swift */; };
@@ -69,6 +72,7 @@
 		1749FF699BDEECE4748D7C9F /* AddPlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlaceViewModel.swift; sourceTree = "<group>"; };
 		1A20E1ACED9A4EE688D7BB65 /* PinDropView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinDropView.swift; sourceTree = "<group>"; };
 		1B443684DCA45C2964FEF692 /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
+		1E2D24526B578F47E9CB2566 /* AuthenticationServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AuthenticationServices.framework; path = System/Library/Frameworks/AuthenticationServices.framework; sourceTree = SDKROOT; };
 		226CCD6AD46FBAB1EECF6181 /* SupabaseClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupabaseClient.swift; sourceTree = "<group>"; };
 		22F557A6691F7DA291F12FF5 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		27A86C08E93687C40E740F28 /* PlaceAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceAnnotationView.swift; sourceTree = "<group>"; };
@@ -76,6 +80,7 @@
 		302E4D37DAC287EC3A5F3128 /* MapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapViewModel.swift; sourceTree = "<group>"; };
 		40F71336F28075576BBD6489 /* SearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchViewModel.swift; sourceTree = "<group>"; };
 		413E60448089F29F7CA8CF54 /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
+		4164B80AFCF2431EDD11F3DA /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4267F7544E87F2BC8DABE485 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		453235626AAD3946ACA1A06B /* Follow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follow.swift; sourceTree = "<group>"; };
 		47790C4B0BE9D93546FEEB20 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
@@ -102,7 +107,9 @@
 		B9D20D83E363053A11C6761B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BAF921038D54E140CBBAF19E /* Placi.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Placi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD48AC649BA0AC9432C08BF /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
+		BE599A5970FFF3AD7AF48ECA /* Placi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Placi.entitlements; sourceTree = "<group>"; };
 		BEB04875F69F7E467271B0EB /* PlaciScoreBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaciScoreBadge.swift; sourceTree = "<group>"; };
+		C111694B3DF6717CD0C20D08 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		C7381248E80636220B8B6B49 /* PlacList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacList.swift; sourceTree = "<group>"; };
 		CCF332F6AFB4CBA5F207AFF1 /* PostFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFormView.swift; sourceTree = "<group>"; };
 		DE208D9299DF43AAE1A34016 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
@@ -119,6 +126,9 @@
 			files = (
 				EF84CD5757295C55D188B504 /* Supabase in Frameworks */,
 				9E00660D026E0350331AA319 /* SDWebImageSwiftUI in Frameworks */,
+				DAA413EE253BB6FF91F794A8 /* AuthenticationServices.framework in Frameworks */,
+				DBE4F6694FD6A8ECD9E94D35 /* MapKit.framework in Frameworks */,
+				EE8E26CD032D9C5243111720 /* CoreLocation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -134,6 +144,16 @@
 				71A3B8A1D1EFEEB8F7E46FB2 /* PlaceBottomSheet.swift */,
 			);
 			path = Map;
+			sourceTree = "<group>";
+		};
+		18C726C80CBA1CE7DD2482F9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1E2D24526B578F47E9CB2566 /* AuthenticationServices.framework */,
+				C111694B3DF6717CD0C20D08 /* CoreLocation.framework */,
+				4164B80AFCF2431EDD11F3DA /* MapKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		1CF0AE8F6E8B5E3F485EF6A7 /* Features */ = {
@@ -256,6 +276,7 @@
 			isa = PBXGroup;
 			children = (
 				D0C4F91DBD5ABC29D308A1FA /* Placi */,
+				18C726C80CBA1CE7DD2482F9 /* Frameworks */,
 				B33C4255D10730C67AF47C25 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -272,6 +293,7 @@
 				0EA8917ED199A3346E4BC354 /* ContentView.swift */,
 				B9D20D83E363053A11C6761B /* Info.plist */,
 				22F557A6691F7DA291F12FF5 /* MainTabView.swift */,
+				BE599A5970FFF3AD7AF48ECA /* Placi.entitlements */,
 				5D307414AF54B880C413CC82 /* PlacIApp.swift */,
 			);
 			path = Placi;
@@ -432,6 +454,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Placi/Placi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Placi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -582,6 +605,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = Placi/Placi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = Placi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;

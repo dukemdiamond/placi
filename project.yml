@@ -50,6 +50,11 @@ targets:
       - package: Supabase
         product: Supabase
       - package: SDWebImageSwiftUI
+      - sdk: AuthenticationServices.framework
+      - sdk: MapKit.framework
+      - sdk: CoreLocation.framework
+    entitlements:
+      path: Placi/Placi.entitlements
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.placi.app
