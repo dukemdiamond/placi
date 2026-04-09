@@ -46,37 +46,19 @@ struct RankingService {
     }
 
     /// Preview what Placi Score a new draft post would receive if published.
+    /// Simulates inserting a post with `draftRating` into the existing set and
+    /// returns its percentile-based score (0–100).
     static func previewScore(existingPosts: [Post], draftRating: Int) -> Double {
-        var draft = existingPosts
-        // Create a temporary stand-in post for preview purposes
-        let now = Date()
-        // We only need enough fields for the algorithm
-        let tempId = UUID()
-        var tempPost = existingPosts.first.map { p -> Post in
-            var copy = p
-            copy = p  // we'll manipulate via the computed fields
-            return copy
+        guard !existingPosts.isEmpty else {
+            return 100  // first post always gets 100
         }
-
-        // Build a lightweight array by just appending a synthetic entry
-        // using the existing recompute logic on a copy
-        var scoredPosts = draft
-        // Inject a synthetic post rating equal to the draft
-        // by temporarily using an existing post's data as a placeholder
-        if scoredPosts.isEmpty {
-            return Double(draftRating) * 10.0  // trivial case: only post gets 100
-        }
-
-        // Simulate by treating the draft as if it were added with draftRating
-        // We'll compute what percentile a post with draftRating would fall into
-        let maxRating = Double(max(scoredPosts.map(\.baseRating).max() ?? 10, draftRating))
+        let maxRating = Double(max(existingPosts.map(\.baseRating).max() ?? 10, draftRating))
         let draftNorm = Double(draftRating) / maxRating
-        let existingNorms = scoredPosts.map { Double($0.baseRating) / maxRating }
-        let allNorms = existingNorms + [draftNorm]
+        let allNorms = existingPosts.map { Double($0.baseRating) / maxRating } + [draftNorm]
         let sorted = allNorms.sorted(by: >)
-        guard let rank = sorted.firstIndex(of: draftNorm).map({ $0 + 1 }) else { return 0 }
-        let n = Double(sorted.count)
-        let percentile = 1.0 - (Double(rank - 1) / n)
+        // firstIndex returns the first occurrence — fine for preview purposes
+        let rank = (sorted.firstIndex(of: draftNorm) ?? 0) + 1
+        let percentile = 1.0 - (Double(rank - 1) / Double(sorted.count))
         return (percentile * 100).rounded()
     }
 }

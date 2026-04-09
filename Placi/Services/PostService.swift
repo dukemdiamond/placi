@@ -1,5 +1,6 @@
 import Foundation
 import Supabase
+import PostgREST
 
 struct PostService {
 
@@ -176,7 +177,7 @@ struct PostService {
             .from("comments")
             .select("*, profiles(*)")
             .eq("post_id", value: postId)
-            .isFilter("parent_id", value: "null")
+            .is("parent_id", value: AnyJSON.null)
             .order("created_at", ascending: true)
             .execute()
             .value
