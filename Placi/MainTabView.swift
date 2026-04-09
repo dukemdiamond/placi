@@ -3,6 +3,7 @@ import SwiftUI
 struct MainTabView: View {
     @Environment(AppEnvironment.self) private var appEnv
     @Environment(AuthManager.self) private var authManager
+    @State private var unreadCount = 0
 
     var body: some View {
         @Bindable var appEnv = appEnv
@@ -25,9 +26,29 @@ struct MainTabView: View {
                 .tag(AppEnvironment.Tab.search)
 
             ProfileView(userId: authManager.currentUserId ?? UUID())
-                .tabItem { Label("Profile", systemImage: "person.fill") }
+                .tabItem {
+                    Label("Profile", systemImage: "person.fill")
+                }
+                .badge(unreadCount > 0 ? "\(unreadCount)" : nil)
                 .tag(AppEnvironment.Tab.profile)
         }
         .tint(Color("PlaciAccent"))
+        .task { await pollUnreadCount() }
+        .onChange(of: appEnv.selectedTab) { _, new in
+            if new == .profile && unreadCount > 0 {
+                Task { await clearBadge() }
+            }
+        }
+    }
+
+    private func pollUnreadCount() async {
+        guard let userId = authManager.currentUserId else { return }
+        unreadCount = (try? await NotificationService.unreadCount(userId: userId)) ?? 0
+    }
+
+    private func clearBadge() async {
+        guard let userId = authManager.currentUserId else { return }
+        try? await NotificationService.markAllRead(userId: userId)
+        unreadCount = 0
     }
 }

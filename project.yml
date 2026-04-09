@@ -55,6 +55,9 @@ targets:
       - sdk: CoreLocation.framework
     entitlements:
       path: Placi/Placi.entitlements
+      properties:
+        com.apple.developer.applesignin:
+          - Default
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.placi.app

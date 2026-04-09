@@ -39,6 +39,7 @@
 		AB9E8096E53D33CE90EC23DE /* AuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47790C4B0BE9D93546FEEB20 /* AuthView.swift */; };
 		B4D4EE45FAF86EA6DB64B9B4 /* RankingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 81903556E90708B52AF9BBFA /* RankingService.swift */; };
 		B5C87D80BB7FF816181FF3C3 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87FABC035CDAC7A92811687B /* NotificationService.swift */; };
+		B95F42EB434344A66AFE8455 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82FCD23CAD29F745E3FBFE92 /* NotificationsView.swift */; };
 		BAD68577390617DADEC58DDB /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B86FB19F7C9D3C0B37F5F1E5 /* AvatarView.swift */; };
 		BB032506CAB2A342C7B9C202 /* PostService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FA326D176C3948F62910E7 /* PostService.swift */; };
 		BDC52A68732D2F40AEAA1950 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CE2ECA4F6276F0F08BEC2 /* OnboardingView.swift */; };
@@ -97,6 +98,7 @@
 		71A3B8A1D1EFEEB8F7E46FB2 /* PlaceBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceBottomSheet.swift; sourceTree = "<group>"; };
 		74E238B295D69AA0B43EA644 /* PostCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostCardView.swift; sourceTree = "<group>"; };
 		81903556E90708B52AF9BBFA /* RankingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RankingService.swift; sourceTree = "<group>"; };
+		82FCD23CAD29F745E3FBFE92 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		87FABC035CDAC7A92811687B /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		93BC4B966C1FECCACF59E083 /* MapTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapTabView.swift; sourceTree = "<group>"; };
 		93FA1F627F3CE89BE5EAD6DF /* StarRatingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarRatingView.swift; sourceTree = "<group>"; };
@@ -185,6 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				E582488046F680193829EA93 /* EditProfileView.swift */,
+				82FCD23CAD29F745E3FBFE92 /* NotificationsView.swift */,
 				9B5C1A676EE2BB09F9A3EBD3 /* ProfileView.swift */,
 				5C97AEC903EF6EB3E560C72B /* ProfileViewModel.swift */,
 				6D376D1C5490EFB87D99F073 /* RankedListView.swift */,
@@ -417,6 +420,7 @@
 				62D6CD26CB71AE5108CEA146 /* MapTabView.swift in Sources */,
 				E852BFFD7440D83989F58FC2 /* MapViewModel.swift in Sources */,
 				B5C87D80BB7FF816181FF3C3 /* NotificationService.swift in Sources */,
+				B95F42EB434344A66AFE8455 /* NotificationsView.swift in Sources */,
 				BDC52A68732D2F40AEAA1950 /* OnboardingView.swift in Sources */,
 				94CEA6F4B53587ACFF46C6FB /* PhotoGridView.swift in Sources */,
 				FCC8C36C9FA02ED7DE9FFB49 /* PinDropView.swift in Sources */,

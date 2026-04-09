@@ -22,6 +22,13 @@ struct ProfileView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 if isOwnProfile {
+                    ToolbarItem(placement: .topBarLeading) {
+                        NavigationLink {
+                            NotificationsView()
+                        } label: {
+                            Image(systemName: "bell")
+                        }
+                    }
                     ToolbarItem(placement: .topBarTrailing) {
                         NavigationLink {
                             if let p = viewModel.profile { EditProfileView(profile: p) }
