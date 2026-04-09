@@ -8,14 +8,13 @@ final class AuthManager {
     var session: Session?
     var profile: Profile?
     var isLoading = false
-    var errorMessage: String?
 
-    /// True once the auth state has been checked at least once (prevents flash of login screen)
+    /// True once the initial session check has completed (prevents flash of login screen)
     var hasResolved = false
 
     var isAuthenticated: Bool { session != nil }
     var currentUserId: UUID? { session?.user.id }
-    /// New users who are signed in but haven't created a profile yet
+    /// New users who are signed in but have no profile row yet
     var needsOnboarding: Bool { isAuthenticated && profile == nil && hasResolved }
 
     init() {
@@ -25,7 +24,8 @@ final class AuthManager {
     // MARK: - Auth State
 
     private func observeAuthState() async {
-        for await (event, session) in await supabase.auth.authStateChanges {
+        // authStateChanges is a plain AsyncStream in supabase-swift v2 — no `await` needed
+        for await (event, session) in supabase.auth.authStateChanges {
             switch event {
             case .initialSession:
                 self.session = session
@@ -56,19 +56,19 @@ final class AuthManager {
     func signIn(email: String, password: String) async throws {
         isLoading = true
         defer { isLoading = false }
-        let response = try await supabase.auth.signIn(email: email, password: password)
-        session = response.session
-        if let uid = response.session?.user.id {
-            await loadProfile(userId: uid)
-        }
+        // signIn returns Session directly in supabase-swift v2
+        let session = try await supabase.auth.signIn(email: email, password: password)
+        self.session = session
+        await loadProfile(userId: session.user.id)
     }
 
     func signUp(email: String, password: String) async throws {
         isLoading = true
         defer { isLoading = false }
+        // signUp returns AuthResponse; session is optional (nil until email confirmed)
         let response = try await supabase.auth.signUp(email: email, password: password)
-        session = response.session
-        // profile stays nil → needsOnboarding = true
+        self.session = response.session
+        // profile stays nil → needsOnboarding = true once session is set
     }
 
     // MARK: - Apple Sign In
@@ -76,13 +76,12 @@ final class AuthManager {
     func signInWithApple(idToken: String, nonce: String) async throws {
         isLoading = true
         defer { isLoading = false }
-        let response = try await supabase.auth.signInWithIdToken(
+        // signInWithIdToken returns Session directly in supabase-swift v2
+        let session = try await supabase.auth.signInWithIdToken(
             credentials: .init(provider: .apple, idToken: idToken, nonce: nonce)
         )
-        session = response.session
-        if let uid = response.session?.user.id {
-            await loadProfile(userId: uid)
-        }
+        self.session = session
+        await loadProfile(userId: session.user.id)
     }
 
     // MARK: - Sign Out

@@ -31,7 +31,12 @@ extension Place {
         self.latitude = mapItem.placemark.coordinate.latitude
         self.longitude = mapItem.placemark.coordinate.longitude
         self.category = mapItem.pointOfInterestCategory?.rawValue
-        self.mapkitId = mapItem.identifier?.rawValue
+        // identifier is iOS 18+; fall back to nil on older versions
+        if #available(iOS 18.0, *) {
+            self.mapkitId = mapItem.identifier?.rawValue
+        } else {
+            self.mapkitId = nil
+        }
         self.createdAt = Date()
 
         // Build a readable address string
