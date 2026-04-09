@@ -1,5 +1,6 @@
 import UIKit
 import Supabase
+import Storage
 
 struct ImageService {
     private static let bucket = "post-photos"

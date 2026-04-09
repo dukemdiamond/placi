@@ -1,5 +1,6 @@
 import SwiftUI
 import PhotosUI
+import Storage
 
 struct OnboardingView: View {
     @Environment(AuthManager.self) private var authManager
