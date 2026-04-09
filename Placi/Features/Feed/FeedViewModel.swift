@@ -8,8 +8,10 @@ final class FeedViewModel {
     private var currentPage = 0
     private let pageSize = 20
     private var hasMore = true
+    private var userId: UUID?
 
-    func loadInitial() async {
+    func loadInitial(userId: UUID) async {
+        self.userId = userId
         guard !isLoading else { return }
         currentPage = 0
         hasMore = true
@@ -23,16 +25,18 @@ final class FeedViewModel {
     }
 
     func refresh() async {
-        await loadInitial()
+        guard let userId else { return }
+        await loadInitial(userId: userId)
     }
 
     private func load() async {
+        guard let userId else { return }
         isLoading = true
         defer { isLoading = false }
         do {
             let from = currentPage * pageSize
             let to = from + pageSize - 1
-            let newPosts = try await PostService.fetchFeedPosts(range: from...to)
+            let newPosts = try await PostService.fetchFeedPosts(userId: userId, range: from...to)
             posts += newPosts
             hasMore = newPosts.count == pageSize
             currentPage += 1

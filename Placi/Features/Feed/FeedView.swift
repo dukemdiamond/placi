@@ -1,6 +1,7 @@
 import SwiftUI
 
 struct FeedView: View {
+    @Environment(AuthManager.self) private var authManager
     @State private var viewModel = FeedViewModel()
 
     var body: some View {
@@ -36,6 +37,10 @@ struct FeedView: View {
                 PostDetailView(postId: post.id)
             }
         }
-        .task { await viewModel.loadInitial() }
+        .task {
+            if let userId = authManager.currentUserId {
+                await viewModel.loadInitial(userId: userId)
+            }
+        }
     }
 }

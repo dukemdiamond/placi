@@ -41,10 +41,14 @@ final class AddPlaceViewModel {
         )
         var newPost = try await PostService.createPost(payload)
 
-        // 5. Upload photos
+        // 5. Upload photos and insert post_photos rows
+        var photoPayloads: [PostService.PhotoPayload] = []
         for (i, image) in photos.enumerated() {
             let path = try await ImageService.uploadPostPhoto(image: image, postId: newPost.id, order: i)
-            _ = path  // stored in DB separately by the service
+            photoPayloads.append(PostService.PhotoPayload(postId: newPost.id, storagePath: path, displayOrder: i))
+        }
+        if !photoPayloads.isEmpty {
+            try await PostService.insertPostPhotos(photoPayloads)
         }
 
         // 6. Recompute rankings for all user posts

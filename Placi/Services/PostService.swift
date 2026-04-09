@@ -5,10 +5,21 @@ struct PostService {
 
     // MARK: - Fetch
 
-    static func fetchFeedPosts(range: ClosedRange<Int>) async throws -> [Post] {
-        try await supabase
+    /// Home feed — posts from people the current user follows, newest first
+    static func fetchFeedPosts(userId: UUID, range: ClosedRange<Int>) async throws -> [Post] {
+        let rows: [FollowingRow] = try await supabase
+            .from("follows")
+            .select("following_id")
+            .eq("follower_id", value: userId)
+            .execute()
+            .value
+        let followingIds = rows.map(\.followingId)
+        guard !followingIds.isEmpty else { return [] }
+
+        return try await supabase
             .from("posts")
             .select("*, places(*), profiles(*), post_photos(*)")
+            .in("user_id", values: followingIds)
             .eq("is_draft", value: false)
             .order("created_at", ascending: false)
             .range(from: range.lowerBound, to: range.upperBound)
@@ -22,7 +33,7 @@ struct PostService {
             .select("*, places(*), profiles(*), post_photos(*)")
             .eq("user_id", value: userId)
             .eq("is_draft", value: false)
-            .order("rank_position", ascending: true)
+            .order("rank_position", ascending: true, nullsFirst: false)
             .execute()
             .value
     }
@@ -33,6 +44,17 @@ struct PostService {
             .select("*, places(*), profiles(*), post_photos(*)")
             .eq("id", value: id)
             .single()
+            .execute()
+            .value
+    }
+
+    static func fetchPostsAtPlace(placeId: UUID) async throws -> [Post] {
+        try await supabase
+            .from("posts")
+            .select("*, places(*), profiles(*), post_photos(*)")
+            .eq("place_id", value: placeId)
+            .eq("is_draft", value: false)
+            .order("placi_score", ascending: false)
             .execute()
             .value
     }
@@ -70,23 +92,46 @@ struct PostService {
             .value
     }
 
+    // MARK: - Photos
+
+    struct PhotoPayload: Encodable {
+        let postId: UUID
+        let storagePath: String
+        let displayOrder: Int
+        enum CodingKeys: String, CodingKey {
+            case postId = "post_id"
+            case storagePath = "storage_path"
+            case displayOrder = "display_order"
+        }
+    }
+
+    static func insertPostPhotos(_ photos: [PhotoPayload]) async throws {
+        guard !photos.isEmpty else { return }
+        try await supabase
+            .from("post_photos")
+            .insert(photos)
+            .execute()
+    }
+
     // MARK: - Update
 
     static func updatePlaciScores(_ posts: [Post]) async throws {
-        for post in posts {
-            struct ScoreUpdate: Encodable {
-                let placiScore: Double
-                let rankPosition: Int?
-                enum CodingKeys: String, CodingKey {
-                    case placiScore = "placi_score"
-                    case rankPosition = "rank_position"
-                }
+        struct ScoreUpdate: Encodable {
+            let id: UUID
+            let placiScore: Double
+            let rankPosition: Int?
+            enum CodingKeys: String, CodingKey {
+                case id
+                case placiScore = "placi_score"
+                case rankPosition = "rank_position"
             }
-            let update = ScoreUpdate(placiScore: post.placiScore, rankPosition: post.rankPosition)
+        }
+        let updates = posts.map { ScoreUpdate(id: $0.id, placiScore: $0.placiScore, rankPosition: $0.rankPosition) }
+        for update in updates {
             try await supabase
                 .from("posts")
                 .update(update)
-                .eq("id", value: post.id)
+                .eq("id", value: update.id)
                 .execute()
         }
     }
@@ -106,8 +151,7 @@ struct PostService {
             let userId: UUID
             let postId: UUID
             enum CodingKeys: String, CodingKey {
-                case userId = "user_id"
-                case postId = "post_id"
+                case userId = "user_id"; case postId = "post_id"
             }
         }
         try await supabase
@@ -140,15 +184,9 @@ struct PostService {
 
     static func addComment(postId: UUID, userId: UUID, body: String, parentId: UUID? = nil) async throws -> Comment {
         struct CommentPayload: Encodable {
-            let userId: UUID
-            let postId: UUID
-            let body: String
-            let parentId: UUID?
+            let userId: UUID; let postId: UUID; let body: String; let parentId: UUID?
             enum CodingKeys: String, CodingKey {
-                case userId = "user_id"
-                case postId = "post_id"
-                case body
-                case parentId = "parent_id"
+                case userId = "user_id"; case postId = "post_id"; case body; case parentId = "parent_id"
             }
         }
         return try await supabase
@@ -159,4 +197,27 @@ struct PostService {
             .execute()
             .value
     }
+
+    // MARK: - Shares
+
+    static func sharePost(originalPostId: UUID, userId: UUID) async throws {
+        struct SharePayload: Encodable {
+            let userId: UUID; let originalPostId: UUID
+            enum CodingKeys: String, CodingKey {
+                case userId = "user_id"; case originalPostId = "original_post_id"
+            }
+        }
+        try await supabase
+            .from("shares")
+            .insert(SharePayload(userId: userId, originalPostId: originalPostId))
+            .execute()
+    }
 }
+
+// MARK: - Private helpers
+
+private struct FollowingRow: Decodable {
+    let followingId: String
+    enum CodingKeys: String, CodingKey { case followingId = "following_id" }
+}
+

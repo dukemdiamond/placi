@@ -2,6 +2,7 @@ import SwiftUI
 import MapKit
 
 struct MapTabView: View {
+    @Environment(AuthManager.self) private var authManager
     @State private var viewModel = MapViewModel()
     @State private var selectedPost: Post?
     @State private var cameraPosition: MapCameraPosition = .userLocation(fallback: .automatic)
@@ -62,9 +63,17 @@ struct MapTabView: View {
                 AddPlaceView(droppedCoordinate: coord)
             }
         }
-        .task { await viewModel.loadPosts() }
+        .task {
+            if let userId = authManager.currentUserId {
+                await viewModel.loadPosts(userId: userId)
+            }
+        }
         .onChange(of: viewModel.filter) { _, _ in
-            Task { await viewModel.loadPosts() }
+            Task {
+                if let userId = authManager.currentUserId {
+                    await viewModel.loadPosts(userId: userId)
+                }
+            }
         }
     }
 }
