@@ -10,25 +10,23 @@ struct MainTabView: View {
 
         TabView(selection: $appEnv.selectedTab) {
             FeedView()
-                .tabItem { Label("Home", systemImage: "house.fill") }
+                .tabItem { Label("feed", systemImage: "house.fill") }
                 .tag(AppEnvironment.Tab.home)
 
             MapTabView()
-                .tabItem { Label("Map", systemImage: "map.fill") }
+                .tabItem { Label("map", systemImage: "map.fill") }
                 .tag(AppEnvironment.Tab.map)
 
             AddPlaceView()
-                .tabItem { Label("Add", systemImage: "plus.circle.fill") }
+                .tabItem { Label("add", systemImage: "plus.circle.fill") }
                 .tag(AppEnvironment.Tab.add)
 
             SearchView()
-                .tabItem { Label("Search", systemImage: "magnifyingglass") }
+                .tabItem { Label("search", systemImage: "magnifyingglass") }
                 .tag(AppEnvironment.Tab.search)
 
             ProfileView(userId: authManager.currentUserId ?? UUID())
-                .tabItem {
-                    Label("Profile", systemImage: "person.fill")
-                }
+                .tabItem { Label("profile", systemImage: "person.fill") }
                 .badge(unreadCount > 0 ? "\(unreadCount)" : nil)
                 .tag(AppEnvironment.Tab.profile)
         }

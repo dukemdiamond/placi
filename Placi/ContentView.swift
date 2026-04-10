@@ -29,11 +29,10 @@ struct ContentView: View {
 
     private var splashView: some View {
         VStack(spacing: 12) {
-            Image(systemName: "mappin.circle.fill")
-                .font(.system(size: 72))
-                .foregroundStyle(Color("PlaciAccent"))
-            Text("Placi")
-                .font(.custom("Nunito-Bold", size: 36))
+            Image("PlaciLogo")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 160)
         }
     }
 }

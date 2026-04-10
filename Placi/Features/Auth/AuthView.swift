@@ -18,13 +18,12 @@ struct AuthView: View {
 
                     // Logo
                     VStack(spacing: 8) {
-                        Image(systemName: "mappin.circle.fill")
-                            .font(.system(size: 72))
-                            .foregroundStyle(Color("PlaciAccent"))
-                        Text("Placi")
-                            .font(.largeTitle.bold())
-                        Text("Log the places you love.")
-                            .font(.subheadline)
+                        Image("PlaciLogo")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 150)
+                        Text("log the places you love.")
+                            .font(.custom("Nunito-Regular", size: 16))
                             .foregroundStyle(.secondary)
                     }
 

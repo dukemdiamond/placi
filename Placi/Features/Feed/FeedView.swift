@@ -8,7 +8,11 @@ struct FeedView: View {
         NavigationStack {
             Group {
                 if viewModel.posts.isEmpty && !viewModel.isLoading {
-                    ContentUnavailableView("No posts yet", systemImage: "mappin.slash", description: Text("Follow people or add your first place."))
+                    ContentUnavailableView(
+                        "nothing here yet",
+                        systemImage: "mappin.slash",
+                        description: Text("follow people or add your first place.")
+                    )
                 } else {
                     List {
                         ForEach(viewModel.posts) { post in
@@ -26,20 +30,40 @@ struct FeedView: View {
                         }
                         if viewModel.isLoading {
                             HStack { Spacer(); ProgressView(); Spacer() }
+                                .listRowSeparator(.hidden)
                         }
                     }
                     .listStyle(.plain)
                     .refreshable { await viewModel.refresh() }
                 }
             }
-            .navigationTitle("Home")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Image("PlaciLogo")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(height: 26)
+                }
+            }
             .navigationDestination(for: Post.self) { post in
                 PostDetailView(postId: post.id)
+            }
+            .navigationDestination(for: Profile.self) { profile in
+                ProfileView(userId: profile.id)
             }
         }
         .task {
             if let userId = authManager.currentUserId {
                 await viewModel.loadInitial(userId: userId)
+            }
+        }
+        // Auto-refresh when a new post is created anywhere in the app
+        .onChange(of: PostEvents.shared.latestPost?.id) { _, _ in
+            Task {
+                if let userId = authManager.currentUserId {
+                    await viewModel.loadInitial(userId: userId)
+                }
             }
         }
     }

@@ -7,6 +7,7 @@ struct AddPlaceView: View {
 
     @State private var viewModel = AddPlaceViewModel()
     @State private var mode: Mode = .search
+    @State private var successPost: Post? = nil
 
     enum Mode: String, CaseIterable {
         case search = "Search"
@@ -31,19 +32,28 @@ struct AddPlaceView: View {
 
                 Spacer()
             }
-            .navigationTitle("Add a Place")
+            .navigationTitle("add a place")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
                     Button("Cancel") { dismiss() }
+                        .font(.custom("Nunito-Regular", size: 16))
                 }
             }
             .navigationDestination(item: $viewModel.selectedPlace) { place in
-                PostFormView(place: place, viewModel: viewModel)
+                PostFormView(place: place, viewModel: viewModel) { post in
+                    successPost = post
+                }
             }
         }
         .onAppear {
             if droppedCoordinate != nil { mode = .pin }
+        }
+        .fullScreenCover(item: $successPost) { post in
+            PostSuccessView(post: post) {
+                successPost = nil
+                dismiss()
+            }
         }
     }
 }
