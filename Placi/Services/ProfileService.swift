@@ -133,4 +133,48 @@ struct ProfileService {
             .execute()
         return result.count ?? 0
     }
+
+    // MARK: - Follower / Following lists
+
+    static func fetchFollowers(userId: UUID) async throws -> [Profile] {
+        struct Row: Decodable {
+            let followerId: String
+            enum CodingKeys: String, CodingKey { case followerId = "follower_id" }
+        }
+        let rows: [Row] = try await supabase
+            .from("follows")
+            .select("follower_id")
+            .eq("following_id", value: userId)
+            .execute()
+            .value
+        guard !rows.isEmpty else { return [] }
+        let ids = rows.map(\.followerId)
+        return try await supabase
+            .from("profiles")
+            .select()
+            .in("id", values: ids)
+            .execute()
+            .value
+    }
+
+    static func fetchFollowing(userId: UUID) async throws -> [Profile] {
+        struct Row: Decodable {
+            let followingId: String
+            enum CodingKeys: String, CodingKey { case followingId = "following_id" }
+        }
+        let rows: [Row] = try await supabase
+            .from("follows")
+            .select("following_id")
+            .eq("follower_id", value: userId)
+            .execute()
+            .value
+        guard !rows.isEmpty else { return [] }
+        let ids = rows.map(\.followingId)
+        return try await supabase
+            .from("profiles")
+            .select()
+            .in("id", values: ids)
+            .execute()
+            .value
+    }
 }

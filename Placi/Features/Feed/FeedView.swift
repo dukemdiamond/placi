@@ -39,6 +39,17 @@ struct FeedView: View {
     private var feedContent: some View {
         ScrollView {
             LazyVStack(spacing: 0) {
+                // Full-width logo header — not toolbar-constrained
+                Image("PlaciLogo")
+                    .renderingMode(.original)
+                    .resizable()
+                    .scaledToFit()
+                    .frame(height: 48)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(.horizontal, 16)
+                    .padding(.top, 6)
+                    .padding(.bottom, 2)
+
                 searchBar
                 if !viewModel.suggestedUsers.isEmpty {
                     SuggestedUsersSection(users: viewModel.suggestedUsers)
@@ -102,24 +113,19 @@ struct FeedView: View {
 
     @ToolbarContentBuilder
     private func feedToolbar(appEnv: Binding<AppEnvironment.Tab>) -> some ToolbarContent {
-        ToolbarItem(placement: .topBarLeading) {
-            Image("PlaciLogo")
-                .renderingMode(.original)
-                .resizable()
-                .scaledToFit()
-                .frame(height: 42)
-        }
         ToolbarItemGroup(placement: .topBarTrailing) {
             Button {
                 appEnv.wrappedValue = .map
             } label: {
                 Image(systemName: "map")
+                    .font(.system(size: 18))
                     .foregroundStyle(Color("PlaciAccent"))
             }
             NavigationLink {
                 NotificationsView()
             } label: {
                 Image(systemName: "bell")
+                    .font(.system(size: 18))
                     .foregroundStyle(Color("PlaciAccent"))
             }
         }

@@ -10,7 +10,7 @@ struct ProfileView: View {
     var body: some View {
         Group {
             if let profile = viewModel.profile {
-                content(profile)
+                profileContent(profile)
             } else if viewModel.isLoading {
                 ProgressView().frame(maxWidth: .infinity, maxHeight: .infinity)
             } else {
@@ -18,20 +18,13 @@ struct ProfileView: View {
             }
         }
         .navigationBarTitleDisplayMode(.inline)
+        .navigationTitle(viewModel.profile.map { "@\($0.username)" } ?? "")
         .toolbar {
             if isOwnProfile {
-                ToolbarItem(placement: .topBarLeading) {
-                    NavigationLink { NotificationsView() } label: {
-                        Image(systemName: "bell")
-                            .foregroundStyle(Color("PlaciAccent"))
-                    }
-                }
                 ToolbarItem(placement: .topBarTrailing) {
-                    NavigationLink {
-                        if let p = viewModel.profile { EditProfileView(profile: p) }
-                    } label: {
-                        Text("edit")
-                            .font(.custom("Nunito-SemiBold", size: 15))
+                    NavigationLink { SettingsView() } label: {
+                        Image(systemName: "gearshape")
+                            .foregroundStyle(Color("PlaciAccent"))
                     }
                 }
             }
@@ -39,113 +32,175 @@ struct ProfileView: View {
         .task { await viewModel.load(userId: userId, currentUserId: authManager.currentUserId) }
     }
 
+    // MARK: - Main content
+
     @ViewBuilder
-    private func content(_ profile: Profile) -> some View {
+    private func profileContent(_ profile: Profile) -> some View {
         ScrollView {
-            VStack(spacing: 0) {
-                profileHeader(profile)
-
-                // Tab picker
-                Picker("tab", selection: $viewModel.profileTab) {
-                    Text("been").tag(ProfileViewModel.ProfileTab.been)
-                    Text("want to go").tag(ProfileViewModel.ProfileTab.wantToGo)
-                    Text("ranked").tag(ProfileViewModel.ProfileTab.ranked)
-                }
-                .pickerStyle(.segmented)
-                .font(.custom("Nunito-SemiBold", size: 13))
-                .padding(.horizontal, 16)
-                .padding(.vertical, 12)
-
-                Divider()
-
-                switch viewModel.profileTab {
-                case .been:
-                    beenSection
-                case .wantToGo:
-                    wantToGoSection
-                case .ranked:
-                    RankedListView(posts: $viewModel.posts) { id, pos in
-                        Task { await viewModel.reorder(postId: id, to: pos) }
-                    }
-                }
+            VStack(spacing: 20) {
+                header(profile)
+                Divider().padding(.horizontal)
+                tabs(profile)
             }
+            .padding(.top, 8)
         }
-        .navigationDestination(for: Post.self) { post in PostDetailView(postId: post.id) }
-        .navigationDestination(for: Profile.self) { p in ProfileView(userId: p.id) }
+        .background(Color(.systemGroupedBackground))
+        .navigationDestination(for: Post.self)    { PostDetailView(postId: $0.id) }
+        .navigationDestination(for: Profile.self) { ProfileView(userId: $0.id) }
     }
 
     // MARK: - Header
 
     @ViewBuilder
-    private func profileHeader(_ profile: Profile) -> some View {
+    private func header(_ profile: Profile) -> some View {
         VStack(spacing: 16) {
             // Avatar
             AvatarView(url: profile.avatarUrl, name: profile.displayName)
-                .frame(width: 90, height: 90)
-                .shadow(radius: 4)
+                .frame(width: 96, height: 96)
+                .shadow(color: .black.opacity(0.1), radius: 6, x: 0, y: 3)
 
-            // Name + username
+            // Name + handle + bio
             VStack(spacing: 4) {
                 Text(profile.displayName)
-                    .font(.custom("Nunito-ExtraBold", size: 22))
+                    .font(.custom("Nunito-ExtraBold", size: 24))
+                    .foregroundStyle(.primary)
                 Text("@\(profile.username)")
                     .font(.custom("Nunito-Regular", size: 14))
                     .foregroundStyle(.secondary)
-                if let bio = profile.bio {
+                if let bio = profile.bio, !bio.isEmpty {
                     Text(bio)
                         .font(.custom("Nunito-Regular", size: 14))
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
-                        .padding(.horizontal, 32)
+                        .padding(.horizontal, 40)
                         .padding(.top, 2)
                 }
             }
 
-            // Stats
+            // Stats — clickable
             HStack(spacing: 0) {
-                statItem(value: viewModel.postCount, label: "places")
-                Divider().frame(height: 30)
-                statItem(value: viewModel.followerCount, label: "followers")
-                Divider().frame(height: 30)
-                statItem(value: viewModel.followingCount, label: "following")
-            }
-            .background(Color(.systemGray6))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .padding(.horizontal, 32)
-
-            // Follow / Edit button
-            if !isOwnProfile {
-                Button {
-                    Task { await viewModel.toggleFollow(currentUserId: authManager.currentUserId, targetId: userId) }
+                NavigationLink {
+                    beenList
                 } label: {
-                    Text(viewModel.isFollowing ? "following" : "follow")
-                        .font(.custom("Nunito-Bold", size: 15))
-                        .frame(width: 160, height: 40)
-                        .background(viewModel.isFollowing ? Color(.systemGray5) : Color("PlaciAccent"))
-                        .foregroundStyle(viewModel.isFollowing ? Color.primary : Color.white)
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+                    statCell(value: viewModel.postCount, label: "places")
                 }
+                .buttonStyle(.plain)
+
+                Divider().frame(height: 36)
+
+                NavigationLink {
+                    FollowerListView(userId: userId)
+                } label: {
+                    statCell(value: viewModel.followerCount, label: "followers")
+                }
+                .buttonStyle(.plain)
+
+                Divider().frame(height: 36)
+
+                NavigationLink {
+                    FollowingListView(userId: userId)
+                } label: {
+                    statCell(value: viewModel.followingCount, label: "following")
+                }
+                .buttonStyle(.plain)
+            }
+            .background(Color(.systemBackground))
+            .clipShape(RoundedRectangle(cornerRadius: 14))
+            .overlay(RoundedRectangle(cornerRadius: 14).stroke(Color(.systemGray5), lineWidth: 1))
+            .padding(.horizontal, 24)
+
+            // Action buttons
+            if isOwnProfile {
+                ownProfileButtons(profile)
+            } else {
+                followButton
             }
         }
-        .padding(.vertical, 20)
-        .padding(.horizontal, 16)
+        .padding(.bottom, 4)
     }
 
-    private func statItem(value: Int, label: String) -> some View {
-        VStack(spacing: 2) {
+    private func statCell(value: Int, label: String) -> some View {
+        VStack(spacing: 3) {
             Text("\(value)")
-                .font(.custom("Nunito-ExtraBold", size: 18))
+                .font(.custom("Nunito-ExtraBold", size: 20))
+                .foregroundStyle(.primary)
             Text(label)
                 .font(.custom("Nunito-Regular", size: 12))
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 10)
+        .padding(.vertical, 12)
     }
 
-    // MARK: - Been
+    private func ownProfileButtons(_ profile: Profile) -> some View {
+        HStack(spacing: 10) {
+            NavigationLink { SettingsView() } label: {
+                Text("edit profile")
+                    .font(.custom("Nunito-SemiBold", size: 14))
+                    .frame(maxWidth: .infinity, minHeight: 38)
+                    .background(Color(.systemBackground))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .overlay(RoundedRectangle(cornerRadius: 10).stroke(Color(.systemGray4), lineWidth: 1))
+                    .foregroundStyle(.primary)
+            }
+            .buttonStyle(.plain)
 
-    private var beenSection: some View {
+            ShareLink(
+                item: URL(string: "https://placi.app/profile/\(profile.username)")!,
+                message: Text("check out @\(profile.username) on placi 📍")
+            ) {
+                Label("share profile", systemImage: "square.and.arrow.up")
+                    .font(.custom("Nunito-SemiBold", size: 14))
+                    .frame(maxWidth: .infinity, minHeight: 38)
+                    .background(Color("PlaciAccent"))
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+                    .foregroundStyle(.white)
+            }
+        }
+        .padding(.horizontal, 24)
+    }
+
+    private var followButton: some View {
+        Button {
+            Task { await viewModel.toggleFollow(currentUserId: authManager.currentUserId, targetId: userId) }
+        } label: {
+            Text(viewModel.isFollowing ? "following" : "follow")
+                .font(.custom("Nunito-Bold", size: 16))
+                .frame(maxWidth: .infinity, minHeight: 44)
+                .background(viewModel.isFollowing ? Color(.systemGray5) : Color("PlaciAccent"))
+                .foregroundStyle(viewModel.isFollowing ? Color.primary : Color.white)
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+        }
+        .padding(.horizontal, 24)
+    }
+
+    // MARK: - Tabs
+
+    @ViewBuilder
+    private func tabs(_ profile: Profile) -> some View {
+        VStack(spacing: 0) {
+            Picker("tab", selection: $viewModel.profileTab) {
+                Text("been").tag(ProfileViewModel.ProfileTab.been)
+                Text("want to go").tag(ProfileViewModel.ProfileTab.wantToGo)
+                Text("ranked").tag(ProfileViewModel.ProfileTab.ranked)
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal, 16)
+            .padding(.bottom, 12)
+
+            switch viewModel.profileTab {
+            case .been:        beenList
+            case .wantToGo:    wantToGoList
+            case .ranked:
+                RankedListView(posts: $viewModel.posts) { id, pos in
+                    Task { await viewModel.reorder(postId: id, to: pos) }
+                }
+            }
+        }
+        .background(Color(.systemGroupedBackground))
+    }
+
+    private var beenList: some View {
         LazyVStack(spacing: 14) {
             if viewModel.posts.isEmpty {
                 ContentUnavailableView(
@@ -163,14 +218,11 @@ struct ProfileView: View {
                 }
             }
         }
-        .padding(.top, 12)
         .padding(.bottom, 24)
     }
 
-    // MARK: - Want to Go
-
-    private var wantToGoSection: some View {
-        LazyVStack(spacing: 12) {
+    private var wantToGoList: some View {
+        LazyVStack(spacing: 10) {
             if viewModel.bookmarkedPlaces.isEmpty {
                 ContentUnavailableView(
                     "no bookmarks yet",
@@ -181,60 +233,10 @@ struct ProfileView: View {
             } else {
                 ForEach(viewModel.bookmarkedPlaces) { place in
                     WantToGoCard(place: place, userId: authManager.currentUserId)
+                        .padding(.horizontal, 14)
                 }
             }
         }
-        .padding(.top, 12)
         .padding(.bottom, 24)
-    }
-}
-
-// MARK: - Want to Go Card
-
-struct WantToGoCard: View {
-    let place: Place
-    let userId: UUID?
-    @State private var removed = false
-
-    var body: some View {
-        if !removed {
-            HStack(spacing: 14) {
-                ZStack {
-                    Circle()
-                        .fill(Color("PlaciAccent").opacity(0.12))
-                        .frame(width: 44, height: 44)
-                    Image(systemName: "mappin.fill")
-                        .foregroundStyle(Color("PlaciAccent"))
-                }
-
-                VStack(alignment: .leading, spacing: 2) {
-                    Text(place.name)
-                        .font(.custom("Nunito-Bold", size: 15))
-                    if let address = place.address {
-                        Text(address)
-                            .font(.custom("Nunito-Regular", size: 12))
-                            .foregroundStyle(.secondary)
-                    }
-                }
-
-                Spacer()
-
-                Button {
-                    guard let uid = userId else { return }
-                    Task {
-                        try? await BookmarkService.removeBookmark(userId: uid, placeId: place.id)
-                        removed = true
-                    }
-                } label: {
-                    Image(systemName: "bookmark.fill")
-                        .foregroundStyle(Color("PlaciAccent"))
-                }
-            }
-            .padding(14)
-            .background(Color(.systemBackground))
-            .clipShape(RoundedRectangle(cornerRadius: 12))
-            .shadow(color: .black.opacity(0.05), radius: 4, x: 0, y: 2)
-            .padding(.horizontal, 14)
-        }
     }
 }

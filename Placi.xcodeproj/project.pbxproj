@@ -14,9 +14,11 @@
 		0D8E0FC5BC3FA83042516EA8 /* Place.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0B171F6BD1360CAE78C07B78 /* Place.swift */; };
 		0EBF9F9D1DA7E59E6032CAE8 /* Nunito-BoldItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A4B494381475455754B6869C /* Nunito-BoldItalic.ttf */; };
 		13D21C2169991F8B25A04DD9 /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B443684DCA45C2964FEF692 /* ProfileService.swift */; };
+		1451B72186109629AC6361A3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3DD33A4C6225300F26F0AEF /* SettingsView.swift */; };
 		1640FCB2E45851BE60B589FD /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 281EE3B46A9BDA6BD1D5C170 /* AppNotification.swift */; };
 		2B5105E5688262FFC82C305B /* PlacIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D307414AF54B880C413CC82 /* PlacIApp.swift */; };
 		2DEC7AC0C6C4C702E99CECA8 /* AddPlaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D185C4C14669A04F613F2FF /* AddPlaceView.swift */; };
+		2F72810531A5F784159A9C11 /* FollowerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F346EB57E5FE798E9837ABD9 /* FollowerListView.swift */; };
 		304246C597FC19C7E7A39244 /* Nunito-Light.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 5F4F23AF68C364F22A6BE919 /* Nunito-Light.ttf */; };
 		361273CAE9EB442E38AB2130 /* UserRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A0423EC6844153299DD1CD /* UserRowView.swift */; };
 		36B9BEF2D65BEA019B6B96E1 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4267F7544E87F2BC8DABE485 /* AuthManager.swift */; };
@@ -38,6 +40,7 @@
 		7CBECE0547B9FBF8C2B609D5 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22F557A6691F7DA291F12FF5 /* MainTabView.swift */; };
 		7FF474AA3B8EB9ABFD05DC36 /* PostEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2827D99133C7C2FA8B3BC3AA /* PostEvents.swift */; };
 		897E28BC7861BE857202FE7E /* StarRatingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93FA1F627F3CE89BE5EAD6DF /* StarRatingView.swift */; };
+		8AFCEE61907914E82AAA227E /* FollowingListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F339BED6E273A521F5EE529A /* FollowingListView.swift */; };
 		8B575BFA992831B7E95CB2A8 /* SearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40F71336F28075576BBD6489 /* SearchViewModel.swift */; };
 		8FCDD9CB1D8DFF05387D8DCD /* Follow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 453235626AAD3946ACA1A06B /* Follow.swift */; };
 		94CEA6F4B53587ACFF46C6FB /* PhotoGridView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B28C92F9634B47FF3EFE2E /* PhotoGridView.swift */; };
@@ -145,11 +148,12 @@
 		B3C2321AB02E9C3C178265DA /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
 		B86FB19F7C9D3C0B37F5F1E5 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		B9D20D83E363053A11C6761B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		BAF921038D54E140CBBAF19E /* Placi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Placi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAF921038D54E140CBBAF19E /* Placi.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Placi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD48AC649BA0AC9432C08BF /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		BE599A5970FFF3AD7AF48ECA /* Placi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Placi.entitlements; sourceTree = "<group>"; };
 		BEB04875F69F7E467271B0EB /* PlaciScoreBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaciScoreBadge.swift; sourceTree = "<group>"; };
 		C111694B3DF6717CD0C20D08 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		C3DD33A4C6225300F26F0AEF /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		C7381248E80636220B8B6B49 /* PlacList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlacList.swift; sourceTree = "<group>"; };
 		CCF332F6AFB4CBA5F207AFF1 /* PostFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostFormView.swift; sourceTree = "<group>"; };
 		CE4322FB089C66CE1261CD7F /* Nunito-ExtraLight.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-ExtraLight.ttf"; sourceTree = "<group>"; };
@@ -159,6 +163,8 @@
 		EBFB1D1B614C5BCBB3BE9234 /* Nunito-SemiBoldItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-SemiBoldItalic.ttf"; sourceTree = "<group>"; };
 		ECF1F8BAA3DFCD08499579A5 /* AppFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
 		EEA29EE729B431BAFD8911FA /* EmailConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailConfirmationView.swift; sourceTree = "<group>"; };
+		F339BED6E273A521F5EE529A /* FollowingListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowingListView.swift; sourceTree = "<group>"; };
+		F346EB57E5FE798E9837ABD9 /* FollowerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FollowerListView.swift; sourceTree = "<group>"; };
 		F41CE2ECA4F6276F0F08BEC2 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		F498EA3D958314019CDFC2A0 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Regular.ttf"; sourceTree = "<group>"; };
 		FD470B4E029BD5D7A0289D7C /* ProfilePostCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostCard.swift; sourceTree = "<group>"; };
@@ -254,11 +260,14 @@
 			isa = PBXGroup;
 			children = (
 				E582488046F680193829EA93 /* EditProfileView.swift */,
+				F346EB57E5FE798E9837ABD9 /* FollowerListView.swift */,
+				F339BED6E273A521F5EE529A /* FollowingListView.swift */,
 				82FCD23CAD29F745E3FBFE92 /* NotificationsView.swift */,
 				FD470B4E029BD5D7A0289D7C /* ProfilePostCard.swift */,
 				9B5C1A676EE2BB09F9A3EBD3 /* ProfileView.swift */,
 				5C97AEC903EF6EB3E560C72B /* ProfileViewModel.swift */,
 				6D376D1C5490EFB87D99F073 /* RankedListView.swift */,
+				C3DD33A4C6225300F26F0AEF /* SettingsView.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -434,6 +443,7 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					99DCC7418E763D02093EA870 = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -509,6 +519,8 @@
 				6A117643CB97AEA95C1EF440 /* FeedView.swift in Sources */,
 				A960D3F1C98822594BB1A468 /* FeedViewModel.swift in Sources */,
 				8FCDD9CB1D8DFF05387D8DCD /* Follow.swift in Sources */,
+				2F72810531A5F784159A9C11 /* FollowerListView.swift in Sources */,
+				8AFCEE61907914E82AAA227E /* FollowingListView.swift in Sources */,
 				E70C090ECE0F0C109219C4BF /* ImageService.swift in Sources */,
 				4CEB428E93966AE14133147F /* LeaderboardView.swift in Sources */,
 				CDB95EACB6FE3BD3E5F3D0DD /* Like.swift in Sources */,
@@ -544,6 +556,7 @@
 				B4D4EE45FAF86EA6DB64B9B4 /* RankingService.swift in Sources */,
 				5F8ACBECF050F1ADC0BD96B7 /* SearchView.swift in Sources */,
 				8B575BFA992831B7E95CB2A8 /* SearchViewModel.swift in Sources */,
+				1451B72186109629AC6361A3 /* SettingsView.swift in Sources */,
 				897E28BC7861BE857202FE7E /* StarRatingView.swift in Sources */,
 				3EE92CDF1E334119AB6914AE /* SupabaseClient.swift in Sources */,
 				361273CAE9EB442E38AB2130 /* UserRowView.swift in Sources */,
@@ -560,7 +573,7 @@
 				CODE_SIGN_ENTITLEMENTS = Placi/Placi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = AX4FU8M856;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Placi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -713,7 +726,7 @@
 				CODE_SIGN_ENTITLEMENTS = Placi/Placi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = AX4FU8M856;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Placi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
