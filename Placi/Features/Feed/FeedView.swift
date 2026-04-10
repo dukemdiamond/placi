@@ -104,10 +104,10 @@ struct FeedView: View {
     private func feedToolbar(appEnv: Binding<AppEnvironment.Tab>) -> some ToolbarContent {
         ToolbarItem(placement: .topBarLeading) {
             Image("PlaciLogo")
+                .renderingMode(.original)
                 .resizable()
                 .scaledToFit()
                 .frame(height: 42)
-                .renderingMode(.original)
         }
         ToolbarItemGroup(placement: .topBarTrailing) {
             Button {
