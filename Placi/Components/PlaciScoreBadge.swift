@@ -1,13 +1,13 @@
 import SwiftUI
 
 struct PlaciScoreBadge: View {
-    let score: Double
+    let score: Double   // 1.0–10.0
 
     var body: some View {
-        Text(String(format: "%.0f", score))
-            .font(.system(size: 12, weight: .bold))
+        Text(String(format: "%.1f", score))
+            .font(.custom("Nunito-Bold", size: 13))
             .foregroundStyle(.white)
-            .padding(.horizontal, 8)
+            .padding(.horizontal, 9)
             .padding(.vertical, 4)
             .background(badgeColor)
             .clipShape(Capsule())
@@ -15,10 +15,9 @@ struct PlaciScoreBadge: View {
 
     private var badgeColor: Color {
         switch score {
-        case 80...: return .green
-        case 60..<80: return Color("PlaciAccent")
-        case 40..<60: return .orange
-        default: return .gray
+        case 7.0...:    return Color("PlaciAccent")
+        case 4.0..<7.0: return .orange
+        default:        return Color(.systemGray3)
         }
     }
 }
