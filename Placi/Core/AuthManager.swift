@@ -12,6 +12,10 @@ final class AuthManager {
     /// True once the initial session check has completed (prevents flash of login screen)
     var hasResolved = false
 
+    /// Set while waiting for the user to click the confirmation email
+    var awaitingConfirmation = false
+    var pendingEmail: String?
+
     var isAuthenticated: Bool { session != nil }
     var currentUserId: UUID? { session?.user.id }
     /// New users who are signed in but have no profile row yet
@@ -65,10 +69,13 @@ final class AuthManager {
     func signUp(email: String, password: String) async throws {
         isLoading = true
         defer { isLoading = false }
-        // signUp returns AuthResponse; session is optional (nil until email confirmed)
         let response = try await supabase.auth.signUp(email: email, password: password)
         self.session = response.session
-        // profile stays nil → needsOnboarding = true once session is set
+        if response.session == nil {
+            // Supabase requires email confirmation — session is nil until confirmed
+            pendingEmail = email
+            awaitingConfirmation = true
+        }
     }
 
     // MARK: - Apple Sign In

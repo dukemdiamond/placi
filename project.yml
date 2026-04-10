@@ -36,6 +36,8 @@ targets:
       - path: Placi
     resources:
       - path: Placi/Assets.xcassets
+      - path: Placi/Fonts
+        optional: true
     plist:
       path: Placi/Info.plist
       properties:

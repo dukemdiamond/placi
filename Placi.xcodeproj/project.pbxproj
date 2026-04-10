@@ -33,6 +33,7 @@
 		950B80161C46DE0729F6BD93 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 129C90F5E4ECE7E6399EBA2F /* Comment.swift */; };
 		96C2184643C94820344177A7 /* AppEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A503998C65E68F01D87553 /* AppEnvironment.swift */; };
 		9E00660D026E0350331AA319 /* SDWebImageSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = 612AD02CA9AA6548E5F05424 /* SDWebImageSwiftUI */; };
+		A4BF61B40EDBB06A502018BC /* AppFont.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECF1F8BAA3DFCD08499579A5 /* AppFont.swift */; };
 		A6684F91CB94152FE116D42C /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E582488046F680193829EA93 /* EditProfileView.swift */; };
 		A7890BE3E3B6C30C2C4DC191 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 63B36102A22583E1626D2356 /* Assets.xcassets */; };
 		A960D3F1C98822594BB1A468 /* FeedViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0799CC22DA4F6F118FA4B082 /* FeedViewModel.swift */; };
@@ -45,6 +46,7 @@
 		BDC52A68732D2F40AEAA1950 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F41CE2ECA4F6276F0F08BEC2 /* OnboardingView.swift */; };
 		C2C58865FEACEFD2495B1DF3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EA8917ED199A3346E4BC354 /* ContentView.swift */; };
 		C83C421E8649E47B5186BE7F /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E28A78FB941B9A212C1A378 /* Post.swift */; };
+		C9C452CD9B93561714DEF466 /* EmailConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEA29EE729B431BAFD8911FA /* EmailConfirmationView.swift */; };
 		CDB95EACB6FE3BD3E5F3D0DD /* Like.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50D5602E551CDD38097F0DEC /* Like.swift */; };
 		D1B0F41F1A5C5FA6F25BB8CD /* Profile.swift in Sources */ = {isa = PBXBuildFile; fileRef = BCD48AC649BA0AC9432C08BF /* Profile.swift */; };
 		D2474A1B6251564C02E2BA98 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B5C1A676EE2BB09F9A3EBD3 /* ProfileView.swift */; };
@@ -107,7 +109,7 @@
 		B3A0423EC6844153299DD1CD /* UserRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRowView.swift; sourceTree = "<group>"; };
 		B86FB19F7C9D3C0B37F5F1E5 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		B9D20D83E363053A11C6761B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		BAF921038D54E140CBBAF19E /* Placi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Placi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAF921038D54E140CBBAF19E /* Placi.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Placi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD48AC649BA0AC9432C08BF /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		BE599A5970FFF3AD7AF48ECA /* Placi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Placi.entitlements; sourceTree = "<group>"; };
 		BEB04875F69F7E467271B0EB /* PlaciScoreBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaciScoreBadge.swift; sourceTree = "<group>"; };
@@ -117,6 +119,8 @@
 		DE208D9299DF43AAE1A34016 /* ImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageService.swift; sourceTree = "<group>"; };
 		E1FA326D176C3948F62910E7 /* PostService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostService.swift; sourceTree = "<group>"; };
 		E582488046F680193829EA93 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		ECF1F8BAA3DFCD08499579A5 /* AppFont.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppFont.swift; sourceTree = "<group>"; };
+		EEA29EE729B431BAFD8911FA /* EmailConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailConfirmationView.swift; sourceTree = "<group>"; };
 		F41CE2ECA4F6276F0F08BEC2 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		FDE10115679B86BE22EBC4A2 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -199,6 +203,7 @@
 			isa = PBXGroup;
 			children = (
 				47790C4B0BE9D93546FEEB20 /* AuthView.swift */,
+				EEA29EE729B431BAFD8911FA /* EmailConfirmationView.swift */,
 				F41CE2ECA4F6276F0F08BEC2 /* OnboardingView.swift */,
 			);
 			path = Auth;
@@ -261,6 +266,7 @@
 			isa = PBXGroup;
 			children = (
 				58A503998C65E68F01D87553 /* AppEnvironment.swift */,
+				ECF1F8BAA3DFCD08499579A5 /* AppFont.swift */,
 				4267F7544E87F2BC8DABE485 /* AuthManager.swift */,
 				226CCD6AD46FBAB1EECF6181 /* SupabaseClient.swift */,
 			);
@@ -360,6 +366,7 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					99DCC7418E763D02093EA870 = {
+						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -406,6 +413,7 @@
 				2DEC7AC0C6C4C702E99CECA8 /* AddPlaceView.swift in Sources */,
 				5EE1DF23E05C9CB31E416C41 /* AddPlaceViewModel.swift in Sources */,
 				96C2184643C94820344177A7 /* AppEnvironment.swift in Sources */,
+				A4BF61B40EDBB06A502018BC /* AppFont.swift in Sources */,
 				1640FCB2E45851BE60B589FD /* AppNotification.swift in Sources */,
 				36B9BEF2D65BEA019B6B96E1 /* AuthManager.swift in Sources */,
 				AB9E8096E53D33CE90EC23DE /* AuthView.swift in Sources */,
@@ -413,6 +421,7 @@
 				950B80161C46DE0729F6BD93 /* Comment.swift in Sources */,
 				C2C58865FEACEFD2495B1DF3 /* ContentView.swift in Sources */,
 				A6684F91CB94152FE116D42C /* EditProfileView.swift in Sources */,
+				C9C452CD9B93561714DEF466 /* EmailConfirmationView.swift in Sources */,
 				6A117643CB97AEA95C1EF440 /* FeedView.swift in Sources */,
 				A960D3F1C98822594BB1A468 /* FeedViewModel.swift in Sources */,
 				8FCDD9CB1D8DFF05387D8DCD /* Follow.swift in Sources */,
@@ -464,7 +473,7 @@
 				CODE_SIGN_ENTITLEMENTS = Placi/Placi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = AX4FU8M856;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Placi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -617,7 +626,7 @@
 				CODE_SIGN_ENTITLEMENTS = Placi/Placi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = AX4FU8M856;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = Placi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (

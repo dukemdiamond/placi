@@ -36,6 +36,17 @@
 	<string>Placi needs access to your photos to attach them to your posts.</string>
 	<key>NSCameraUsageDescription</key>
 	<string>Placi needs camera access to take photos for your posts.</string>
+	<key>UIUserInterfaceStyle</key>
+	<string>Light</string>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Fonts/Nunito-Regular.ttf</string>
+		<string>Fonts/Nunito-Medium.ttf</string>
+		<string>Fonts/Nunito-SemiBold.ttf</string>
+		<string>Fonts/Nunito-Bold.ttf</string>
+		<string>Fonts/Nunito-ExtraBold.ttf</string>
+		<string>Fonts/Nunito-Light.ttf</string>
+	</array>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 </dict>

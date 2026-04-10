@@ -36,7 +36,7 @@ struct Post: Codable, Identifiable, Hashable {
         case isDraft = "is_draft"
         case createdAt = "created_at"
         case updatedAt = "updated_at"
-        case place, profile = "profiles", photos = "post_photos"
+        case place = "places", profile = "profiles", photos = "post_photos"
         case likeCount = "like_count"
         case commentCount = "comment_count"
         case isLikedByCurrentUser = "is_liked_by_current_user"

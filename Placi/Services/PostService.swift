@@ -18,7 +18,7 @@ struct PostService {
 
         return try await supabase
             .from("posts")
-            .select("*, places(*), profiles(*), post_photos(*)")
+            .select("*, places(*), profiles!user_id(*), post_photos(*)")
             .in("user_id", values: followingIds)
             .eq("is_draft", value: false)
             .order("created_at", ascending: false)
@@ -30,7 +30,7 @@ struct PostService {
     static func fetchUserPosts(userId: UUID) async throws -> [Post] {
         try await supabase
             .from("posts")
-            .select("*, places(*), profiles(*), post_photos(*)")
+            .select("*, places(*), profiles!user_id(*), post_photos(*)")
             .eq("user_id", value: userId)
             .eq("is_draft", value: false)
             .order("rank_position", ascending: true, nullsFirst: false)
@@ -41,7 +41,7 @@ struct PostService {
     static func fetchPost(id: UUID) async throws -> Post {
         try await supabase
             .from("posts")
-            .select("*, places(*), profiles(*), post_photos(*)")
+            .select("*, places(*), profiles!user_id(*), post_photos(*)")
             .eq("id", value: id)
             .single()
             .execute()
@@ -51,7 +51,7 @@ struct PostService {
     static func fetchPostsAtPlace(placeId: UUID) async throws -> [Post] {
         try await supabase
             .from("posts")
-            .select("*, places(*), profiles(*), post_photos(*)")
+            .select("*, places(*), profiles!user_id(*), post_photos(*)")
             .eq("place_id", value: placeId)
             .eq("is_draft", value: false)
             .order("placi_score", ascending: false)
@@ -86,7 +86,7 @@ struct PostService {
         try await supabase
             .from("posts")
             .insert(payload)
-            .select("*, places(*), profiles(*), post_photos(*)")
+            .select("*, places(*), profiles!user_id(*), post_photos(*)")
             .single()
             .execute()
             .value
@@ -174,7 +174,7 @@ struct PostService {
     static func fetchComments(postId: UUID) async throws -> [Comment] {
         let all: [Comment] = try await supabase
             .from("comments")
-            .select("*, profiles(*)")
+            .select("*, profiles!user_id(*)")
             .eq("post_id", value: postId)
             .order("created_at", ascending: true)
             .execute()
@@ -193,7 +193,7 @@ struct PostService {
         return try await supabase
             .from("comments")
             .insert(CommentPayload(userId: userId, postId: postId, body: body, parentId: parentId))
-            .select("*, profiles(*)")
+            .select("*, profiles!user_id(*)")
             .single()
             .execute()
             .value

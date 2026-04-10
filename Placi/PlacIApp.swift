@@ -8,6 +8,9 @@ struct PlacIApp: App {
         WindowGroup {
             ContentView()
                 .environment(authManager)
+                .preferredColorScheme(.light)
+                // Apply Nunito as the default font throughout the app
+                .font(.custom("Nunito-Regular", size: 17, relativeTo: .body))
         }
     }
 }
