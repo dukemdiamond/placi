@@ -1,100 +1,64 @@
 import Foundation
 
-/// Placi Score: 1.0–10.0 with one decimal place.
-///
-/// Algorithm:
-/// 1. Posts are grouped into sentiment tiers:
-///    - liked    → 7.0–10.0
-///    - okay     → 4.0–6.9
-///    - disliked → 1.0–3.9
-/// 2. Within each tier, posts are ranked by their current rank_position
-///    (or weighted score if no position exists). This is the "pairwise" signal —
-///    manual drag-reorder moves posts within/between tiers.
-/// 3. Score is linearly interpolated across the tier range:
-///    rank 1 in tier → tier max, last in tier → tier min.
-/// 4. Rounded to one decimal place.
-///
-/// The net effect: sentiment determines the bracket; relative position
-/// within that bracket determines the precise score. Two places with the
-/// same sentiment are compared against each other ("pairwise") via rank order.
 struct RankingService {
 
-    // MARK: - Recompute all posts
-
+    /// Recomputes placi_score and rank_position for all of a user's posts.
+    /// Call this after insert, update, or manual reorder.
     static func recompute(posts: inout [Post]) -> [Post] {
         guard !posts.isEmpty else { return posts }
 
-        // Split into tiers, preserving existing rank_position order within each
-        var liked    = posts.filter { $0.sentiment == .liked }
-                            .sorted { ($0.rankPosition ?? Int.max) < ($1.rankPosition ?? Int.max) }
-        var okay     = posts.filter { $0.sentiment == .okay }
-                            .sorted { ($0.rankPosition ?? Int.max) < ($1.rankPosition ?? Int.max) }
-        var disliked = posts.filter { $0.sentiment == .disliked }
-                            .sorted { ($0.rankPosition ?? Int.max) < ($1.rankPosition ?? Int.max) }
-
-        // Score each tier
-        scoreWithinTier(&liked,    range: 7.0...10.0)
-        scoreWithinTier(&okay,     range: 4.0...6.9)
-        scoreWithinTier(&disliked, range: 1.0...3.9)
-
-        // Reassemble: liked first (best), then okay, then disliked
-        var all = liked + okay + disliked
-        for i in all.indices {
-            all[i].rankPosition = i + 1
+        // Step 1: Normalise base ratings to 0–1
+        let maxRating = Double(posts.map(\.baseRating).max() ?? 10)
+        for i in posts.indices {
+            posts[i].normalisedRating = Double(posts[i].baseRating) / maxRating
         }
 
-        posts = all
+        // Step 2: Apply recency multiplier (1.0 → 0.85 over 365 days)
+        let now = Date()
+        for i in posts.indices {
+            let daysAgo = Calendar.current.dateComponents([.day], from: posts[i].createdAt, to: now).day ?? 0
+            let decay = max(0.85, 1.0 - (Double(daysAgo) / 365.0) * 0.15)
+            posts[i].weightedScore = posts[i].normalisedRating * decay
+        }
+
+        // Step 3: Sort by weightedScore descending, assign rank positions
+        posts.sort { $0.weightedScore > $1.weightedScore }
+        for i in posts.indices {
+            posts[i].rankPosition = i + 1
+        }
+
+        // Step 4: Convert rank position to 0–100 Placi Score via percentile
+        let n = Double(posts.count)
+        for i in posts.indices {
+            let percentile = 1.0 - (Double(posts[i].rankPosition! - 1) / n)
+            posts[i].placiScore = (percentile * 100).rounded()
+        }
+
         return posts
     }
 
-    // MARK: - Manual reorder (pairwise drag signal)
-
+    /// Called when user drags a post to a new rank position.
+    /// Re-anchors scores around the manual position then recomputes neighbours.
     static func applyManualReorder(posts: inout [Post], movedPostId: UUID, toPosition: Int) -> [Post] {
         guard let idx = posts.firstIndex(where: { $0.id == movedPostId }) else { return posts }
-        var reordered = posts
-        let moved = reordered.remove(at: idx)
-        let insertAt = min(toPosition - 1, reordered.count)
-        reordered.insert(moved, at: max(0, insertAt))
-        for i in reordered.indices { reordered[i].rankPosition = i + 1 }
-        posts = reordered
+        posts[idx].rankPosition = toPosition
         return recompute(posts: &posts)
     }
 
-    // MARK: - Live preview score for PostFormView
-
-    /// Returns what score a new place with `sentiment` would receive
-    /// if added to `existingPosts`. Used for the live preview while the user fills out the form.
-    static func previewScore(existingPosts: [Post], sentiment: PlaceSentiment) -> Double {
-        let inTier = existingPosts.filter { $0.sentiment == sentiment }
-        let range = sentiment.tierRange
-        if inTier.isEmpty {
-            // First in its tier — gets the top of the range
-            return range.upperBound
+    /// Preview what Placi Score a new draft post would receive if published.
+    /// Simulates inserting a post with `draftRating` into the existing set and
+    /// returns its percentile-based score (0–100).
+    static func previewScore(existingPosts: [Post], draftRating: Int) -> Double {
+        guard !existingPosts.isEmpty else {
+            return 100  // first post always gets 100
         }
-        // New place would slot in at position 1 within its tier (best of the tier so far),
-        // pushing existing ones down. This gives an optimistic preview.
-        let n = Double(inTier.count + 1)
-        // Position 1 of n → score near the top
-        let score = range.upperBound - (0.0 / (n - 1)) * (range.upperBound - range.lowerBound)
-        return round(score * 10) / 10
-    }
-
-    // MARK: - Private helpers
-
-    private static func scoreWithinTier(_ tier: inout [Post], range: ClosedRange<Double>) {
-        let n = tier.count
-        guard n > 0 else { return }
-        for i in tier.indices {
-            let score: Double
-            if n == 1 {
-                // Only one post in this tier — sits at the top of the range
-                score = range.upperBound
-            } else {
-                // Linearly interpolate: rank 0 (best) → upper bound, rank n-1 → lower bound
-                let position = Double(i) / Double(n - 1)
-                score = range.upperBound - position * (range.upperBound - range.lowerBound)
-            }
-            tier[i].placiScore = round(score * 10) / 10
-        }
+        let maxRating = Double(max(existingPosts.map(\.baseRating).max() ?? 10, draftRating))
+        let draftNorm = Double(draftRating) / maxRating
+        let allNorms = existingPosts.map { Double($0.baseRating) / maxRating } + [draftNorm]
+        let sorted = allNorms.sorted(by: >)
+        // firstIndex returns the first occurrence — fine for preview purposes
+        let rank = (sorted.firstIndex(of: draftNorm) ?? 0) + 1
+        let percentile = 1.0 - (Double(rank - 1) / Double(sorted.count))
+        return (percentile * 100).rounded()
     }
 }

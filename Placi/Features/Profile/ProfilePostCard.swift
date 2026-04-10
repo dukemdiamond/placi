@@ -25,17 +25,19 @@ struct ProfilePostCard: View {
                     .frame(width: 38, height: 38)
 
                 VStack(alignment: .leading, spacing: 3) {
-                    // Wrapping text: "[Name] visited and ranked [Place]"
-                    // Using Text concatenation so it wraps naturally as one paragraph
-                    (Text(post.profile?.displayName ?? "")
-                        .font(.custom("Nunito-Bold", size: 14))
-                     + Text(" visited and ranked ")
-                        .font(.custom("Nunito-Regular", size: 14))
-                     + Text(post.place?.name ?? "")
-                        .font(.custom("Nunito-Bold", size: 14))
-                        .foregroundColor(Color("PlaciAccent")))
-                    .fixedSize(horizontal: false, vertical: true)
-
+                    // "[Name] visited and ranked [Place ↗]"
+                    HStack(spacing: 0) {
+                        Text(post.profile?.displayName ?? "")
+                            .font(.custom("Nunito-Bold", size: 14))
+                        Text(" visited and ranked ")
+                            .font(.custom("Nunito-Regular", size: 14))
+                        NavigationLink(value: post) {
+                            Text(post.place?.name ?? "")
+                                .font(.custom("Nunito-Bold", size: 14))
+                                .foregroundStyle(Color("PlaciAccent"))
+                        }
+                        .buttonStyle(.plain)
+                    }
                     Text(post.createdAt.formatted(date: .abbreviated, time: .omitted))
                         .font(.custom("Nunito-Regular", size: 11))
                         .foregroundStyle(Color(.tertiaryLabel))
