@@ -25,12 +25,22 @@ struct ProfilePostCard: View {
                     .frame(width: 38, height: 38)
 
                 VStack(alignment: .leading, spacing: 3) {
-                    visitedText
-                    if let date = post.updatedAt as Date? {
-                        Text(date.formatted(date: .abbreviated, time: .omitted))
-                            .font(.custom("Nunito-Regular", size: 11))
-                            .foregroundStyle(Color(.tertiaryLabel))
+                    // "[Name] visited and ranked [Place ↗]"
+                    HStack(spacing: 0) {
+                        Text(post.profile?.displayName ?? "")
+                            .font(.custom("Nunito-Bold", size: 14))
+                        Text(" visited and ranked ")
+                            .font(.custom("Nunito-Regular", size: 14))
+                        NavigationLink(value: post) {
+                            Text(post.place?.name ?? "")
+                                .font(.custom("Nunito-Bold", size: 14))
+                                .foregroundStyle(Color("PlaciAccent"))
+                        }
+                        .buttonStyle(.plain)
                     }
+                    Text(post.createdAt.formatted(date: .abbreviated, time: .omitted))
+                        .font(.custom("Nunito-Regular", size: 11))
+                        .foregroundStyle(Color(.tertiaryLabel))
                 }
 
                 Spacer()
@@ -125,16 +135,4 @@ struct ProfilePostCard: View {
         }
     }
 
-    // "[Name] visited and ranked [Place Name]"
-    private var visitedText: some View {
-        Group {
-            Text(post.profile?.displayName ?? "")
-                .font(.custom("Nunito-Bold", size: 14))
-            + Text(" visited and ranked ")
-                .font(.custom("Nunito-Regular", size: 14))
-            + Text(post.place?.name ?? "")
-                .font(.custom("Nunito-Bold", size: 14))
-                .foregroundColor(Color("PlaciAccent"))
-        }
-    }
 }

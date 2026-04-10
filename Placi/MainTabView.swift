@@ -9,10 +9,12 @@ struct MainTabView: View {
         @Bindable var appEnv = appEnv
 
         TabView(selection: $appEnv.selectedTab) {
+            // FeedView manages its own NavigationStack internally
             FeedView()
                 .tabItem { Label("feed", systemImage: "house.fill") }
                 .tag(AppEnvironment.Tab.home)
 
+            // MapTabView manages its own stack internally
             MapTabView()
                 .tabItem { Label("map", systemImage: "map.fill") }
                 .tag(AppEnvironment.Tab.map)
@@ -21,14 +23,20 @@ struct MainTabView: View {
                 .tabItem { Label("add", systemImage: "plus.circle.fill") }
                 .tag(AppEnvironment.Tab.add)
 
-            SearchView()
-                .tabItem { Label("search", systemImage: "magnifyingglass") }
-                .tag(AppEnvironment.Tab.search)
+            // Search needs its own NavigationStack as a tab root
+            NavigationStack {
+                SearchView()
+            }
+            .tabItem { Label("search", systemImage: "magnifyingglass") }
+            .tag(AppEnvironment.Tab.search)
 
-            ProfileView(userId: authManager.currentUserId ?? UUID())
-                .tabItem { Label("profile", systemImage: "person.fill") }
-                .badge(unreadCount > 0 ? "\(unreadCount)" : nil)
-                .tag(AppEnvironment.Tab.profile)
+            // Profile needs its own NavigationStack as a tab root
+            NavigationStack {
+                ProfileView(userId: authManager.currentUserId ?? UUID())
+            }
+            .tabItem { Label("profile", systemImage: "person.fill") }
+            .badge(unreadCount > 0 ? "\(unreadCount)" : nil)
+            .tag(AppEnvironment.Tab.profile)
         }
         .tint(Color("PlaciAccent"))
         .task { await pollUnreadCount() }
