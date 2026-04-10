@@ -233,7 +233,6 @@ struct ProfileView: View {
             } else {
                 ForEach(viewModel.bookmarkedPlaces) { place in
                     WantToGoCard(place: place, userId: authManager.currentUserId)
-                        .padding(.horizontal, 14)
                 }
             }
         }
