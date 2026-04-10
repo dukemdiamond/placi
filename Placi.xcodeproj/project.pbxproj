@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		01E43717AB8BD89CC1964E43 /* ProfilePostCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = FD470B4E029BD5D7A0289D7C /* ProfilePostCard.swift */; };
 		04E069ABE37451793B7CA1FD /* PlacList.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7381248E80636220B8B6B49 /* PlacList.swift */; };
 		0894F276FB74BE81B5AE8FDE /* RankedListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6D376D1C5490EFB87D99F073 /* RankedListView.swift */; };
 		0CB7650C380BAAE59245CDAB /* Nunito-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F498EA3D958314019CDFC2A0 /* Nunito-Regular.ttf */; };
@@ -79,6 +80,7 @@
 		F5D197A5899AAD9EDCF96B6D /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = B3C2321AB02E9C3C178265DA /* Nunito-SemiBold.ttf */; };
 		F778A601B9817CF2E4E6B38C /* ProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C97AEC903EF6EB3E560C72B /* ProfileViewModel.swift */; };
 		F9C92987B128A417401BF955 /* PostDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FF6087FEF0D88B93E7A3154 /* PostDetailView.swift */; };
+		FA80058A61BAE7098813C1F0 /* BookmarkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FE0430E777123CC50A0423 /* BookmarkService.swift */; };
 		FB615E3F3829C1ABBADB34F4 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 891CC7D068E9BDDF0A061E10 /* Nunito-Bold.ttf */; };
 		FCC8C36C9FA02ED7DE9FFB49 /* PinDropView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1A20E1ACED9A4EE688D7BB65 /* PinDropView.swift */; };
 /* End PBXBuildFile section */
@@ -108,6 +110,7 @@
 		413E60448089F29F7CA8CF54 /* LeaderboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardView.swift; sourceTree = "<group>"; };
 		4164B80AFCF2431EDD11F3DA /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		4267F7544E87F2BC8DABE485 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
+		44FE0430E777123CC50A0423 /* BookmarkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BookmarkService.swift; sourceTree = "<group>"; };
 		453235626AAD3946ACA1A06B /* Follow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Follow.swift; sourceTree = "<group>"; };
 		47790C4B0BE9D93546FEEB20 /* AuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthView.swift; sourceTree = "<group>"; };
 		4E28A78FB941B9A212C1A378 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
@@ -158,6 +161,7 @@
 		EEA29EE729B431BAFD8911FA /* EmailConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailConfirmationView.swift; sourceTree = "<group>"; };
 		F41CE2ECA4F6276F0F08BEC2 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		F498EA3D958314019CDFC2A0 /* Nunito-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Regular.ttf"; sourceTree = "<group>"; };
+		FD470B4E029BD5D7A0289D7C /* ProfilePostCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePostCard.swift; sourceTree = "<group>"; };
 		FDE10115679B86BE22EBC4A2 /* FeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeedView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -251,6 +255,7 @@
 			children = (
 				E582488046F680193829EA93 /* EditProfileView.swift */,
 				82FCD23CAD29F745E3FBFE92 /* NotificationsView.swift */,
+				FD470B4E029BD5D7A0289D7C /* ProfilePostCard.swift */,
 				9B5C1A676EE2BB09F9A3EBD3 /* ProfileView.swift */,
 				5C97AEC903EF6EB3E560C72B /* ProfileViewModel.swift */,
 				6D376D1C5490EFB87D99F073 /* RankedListView.swift */,
@@ -291,6 +296,7 @@
 		80744E6BBFE6BD439D9242E7 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				44FE0430E777123CC50A0423 /* BookmarkService.swift */,
 				DE208D9299DF43AAE1A34016 /* ImageService.swift */,
 				87FABC035CDAC7A92811687B /* NotificationService.swift */,
 				E1FA326D176C3948F62910E7 /* PostService.swift */,
@@ -496,6 +502,7 @@
 				36B9BEF2D65BEA019B6B96E1 /* AuthManager.swift in Sources */,
 				AB9E8096E53D33CE90EC23DE /* AuthView.swift in Sources */,
 				BAD68577390617DADEC58DDB /* AvatarView.swift in Sources */,
+				FA80058A61BAE7098813C1F0 /* BookmarkService.swift in Sources */,
 				950B80161C46DE0729F6BD93 /* Comment.swift in Sources */,
 				C2C58865FEACEFD2495B1DF3 /* ContentView.swift in Sources */,
 				A6684F91CB94152FE116D42C /* EditProfileView.swift in Sources */,
@@ -530,6 +537,7 @@
 				BB032506CAB2A342C7B9C202 /* PostService.swift in Sources */,
 				6D6C156917722A2FC67089CC /* PostSuccessView.swift in Sources */,
 				D1B0F41F1A5C5FA6F25BB8CD /* Profile.swift in Sources */,
+				01E43717AB8BD89CC1964E43 /* ProfilePostCard.swift in Sources */,
 				13D21C2169991F8B25A04DD9 /* ProfileService.swift in Sources */,
 				D2474A1B6251564C02E2BA98 /* ProfileView.swift in Sources */,
 				F778A601B9817CF2E4E6B38C /* ProfileViewModel.swift in Sources */,

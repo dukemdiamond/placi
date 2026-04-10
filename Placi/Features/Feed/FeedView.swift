@@ -72,7 +72,8 @@ struct FeedView: View {
                     Image("PlaciLogo")
                         .resizable()
                         .scaledToFit()
-                        .frame(height: 34)
+                        .frame(height: 42)
+                        .renderingMode(.original)
                 }
                 ToolbarItemGroup(placement: .topBarTrailing) {
                     Button {
