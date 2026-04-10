@@ -70,6 +70,7 @@ struct PostService {
         let placiScore: Double
         let rankPosition: Int?
         let isDraft: Bool
+        let sentiment: PlaceSentiment
 
         enum CodingKeys: String, CodingKey {
             case userId = "user_id"
@@ -79,6 +80,7 @@ struct PostService {
             case placiScore = "placi_score"
             case rankPosition = "rank_position"
             case isDraft = "is_draft"
+            case sentiment
         }
     }
 

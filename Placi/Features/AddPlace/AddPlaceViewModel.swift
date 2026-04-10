@@ -1,6 +1,7 @@
 import Foundation
 import Observation
 import UIKit
+import Supabase
 
 @Observable
 final class AddPlaceViewModel {
@@ -13,7 +14,7 @@ final class AddPlaceViewModel {
         title: String,
         notes: String,
         photos: [UIImage],
-        rating: Int,
+        sentiment: PlaceSentiment,
         isDraft: Bool,
         userId: UUID
     ) async throws -> Post {
@@ -23,26 +24,27 @@ final class AddPlaceViewModel {
         // 1. Upsert the canonical place
         let placeId = try await upsertPlace(place)
 
-        // 2. Load existing posts for ranking preview
+        // 2. Load existing posts for ranking
         var existingPosts = try await PostService.fetchUserPosts(userId: userId)
 
-        // 3. Compute preliminary score
-        let previewScore = RankingService.previewScore(existingPosts: existingPosts, draftRating: rating)
+        // 3. Compute preview score
+        let previewScore = RankingService.previewScore(existingPosts: existingPosts, sentiment: sentiment)
 
-        // 4. Insert the post
+        // 4. Insert post
         let payload = PostService.CreatePostPayload(
             userId: userId,
             placeId: placeId,
             title: title,
             notes: notes.isEmpty ? nil : notes,
-            baseRating: rating,
+            baseRating: sentiment.baseRating,
             placiScore: previewScore,
             rankPosition: nil,
-            isDraft: isDraft
+            isDraft: isDraft,
+            sentiment: sentiment
         )
         var newPost = try await PostService.createPost(payload)
 
-        // 5. Upload photos and insert post_photos rows
+        // 5. Upload photos
         var photoPayloads: [PostService.PhotoPayload] = []
         for (i, image) in photos.enumerated() {
             let path = try await ImageService.uploadPostPhoto(image: image, postId: newPost.id, order: i)
@@ -57,39 +59,26 @@ final class AddPlaceViewModel {
         var allPosts = existingPosts
         allPosts = RankingService.recompute(posts: &allPosts)
         try await PostService.updatePlaciScores(allPosts)
-
         newPost.placiScore = allPosts.first(where: { $0.id == newPost.id })?.placiScore ?? previewScore
+
         return newPost
     }
 
     private func upsertPlace(_ place: Place) async throws -> UUID {
         struct PlacePayload: Encodable {
-            let name: String
-            let address: String?
-            let latitude: Double
-            let longitude: Double
-            let category: String?
-            let mapkitId: String?
+            let name: String; let address: String?
+            let latitude: Double; let longitude: Double
+            let category: String?; let mapkitId: String?
             enum CodingKeys: String, CodingKey {
                 case name, address, latitude, longitude, category
                 case mapkitId = "mapkit_id"
             }
         }
-        let payload = PlacePayload(
-            name: place.name,
-            address: place.address,
-            latitude: place.latitude,
-            longitude: place.longitude,
-            category: place.category,
-            mapkitId: place.mapkitId
-        )
+        let payload = PlacePayload(name: place.name, address: place.address,
+                                   latitude: place.latitude, longitude: place.longitude,
+                                   category: place.category, mapkitId: place.mapkitId)
         let inserted: Place = try await supabase
-            .from("places")
-            .insert(payload)
-            .select()
-            .single()
-            .execute()
-            .value
+            .from("places").insert(payload).select().single().execute().value
         return inserted.id
     }
 }
