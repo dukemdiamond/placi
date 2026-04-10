@@ -4,6 +4,7 @@ import Observation
 @Observable
 final class FeedViewModel {
     var posts: [Post] = []
+    var suggestedUsers: [Profile] = []
     var isLoading = false
     private var currentPage = 0
     private let pageSize = 20
@@ -12,11 +13,13 @@ final class FeedViewModel {
 
     func loadInitial(userId: UUID) async {
         self.userId = userId
-        guard !isLoading else { return }
         currentPage = 0
         hasMore = true
         posts = []
-        await load()
+        await withTaskGroup(of: Void.self) { group in
+            group.addTask { await self.load() }
+            group.addTask { await self.loadSuggested(userId: userId) }
+        }
     }
 
     func loadMore() async {
@@ -27,6 +30,15 @@ final class FeedViewModel {
     func refresh() async {
         guard let userId else { return }
         await loadInitial(userId: userId)
+    }
+
+    func toggleLike(post: Post) async {
+        guard let userId else { return }
+        if post.isLikedByCurrentUser {
+            try? await PostService.unlikePost(postId: post.id, userId: userId)
+        } else {
+            try? await PostService.likePost(postId: post.id, userId: userId)
+        }
     }
 
     private func load() async {
@@ -40,8 +52,21 @@ final class FeedViewModel {
             posts += newPosts
             hasMore = newPosts.count == pageSize
             currentPage += 1
-        } catch {
-            // TODO: surface error to UI
-        }
+        } catch {}
+    }
+
+    private func loadSuggested(userId: UUID) async {
+        do {
+            // Get IDs already followed
+            let allProfiles: [Profile] = try await supabase
+                .from("profiles")
+                .select()
+                .neq("id", value: userId)
+                .limit(20)
+                .execute()
+                .value
+            // Exclude self; keep up to 8 for the strip
+            suggestedUsers = Array(allProfiles.prefix(8))
+        } catch {}
     }
 }

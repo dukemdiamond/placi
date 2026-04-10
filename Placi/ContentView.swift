@@ -28,11 +28,12 @@ struct ContentView: View {
     }
 
     private var splashView: some View {
-        VStack(spacing: 12) {
+        ZStack {
+            Color.white.ignoresSafeArea()
             Image("PlaciLogo")
                 .resizable()
                 .scaledToFit()
-                .frame(width: 160)
+                .frame(width: 220)
         }
     }
 }
