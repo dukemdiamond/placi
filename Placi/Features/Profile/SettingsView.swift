@@ -1,5 +1,6 @@
 import SwiftUI
 import PhotosUI
+import Storage
 
 struct SettingsView: View {
     @Environment(AuthManager.self) private var authManager
@@ -46,7 +47,7 @@ struct SettingsView: View {
                     }
 
                     VStack(alignment: .leading, spacing: 4) {
-                        Text(authManager.profile?.username.map { "@\($0)" } ?? "")
+                        Text(authManager.profile.map { "@\($0.username)" } ?? "")
                             .font(.custom("Nunito-SemiBold", size: 14))
                             .foregroundStyle(.secondary)
                         Text("tap photo to change")
