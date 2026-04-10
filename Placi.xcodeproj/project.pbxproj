@@ -145,7 +145,7 @@
 		B3C2321AB02E9C3C178265DA /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
 		B86FB19F7C9D3C0B37F5F1E5 /* AvatarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarView.swift; sourceTree = "<group>"; };
 		B9D20D83E363053A11C6761B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		BAF921038D54E140CBBAF19E /* Placi.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Placi.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		BAF921038D54E140CBBAF19E /* Placi.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Placi.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		BCD48AC649BA0AC9432C08BF /* Profile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Profile.swift; sourceTree = "<group>"; };
 		BE599A5970FFF3AD7AF48ECA /* Placi.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Placi.entitlements; sourceTree = "<group>"; };
 		BEB04875F69F7E467271B0EB /* PlaciScoreBadge.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaciScoreBadge.swift; sourceTree = "<group>"; };
@@ -434,7 +434,6 @@
 				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					99DCC7418E763D02093EA870 = {
-						DevelopmentTeam = "";
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -561,7 +560,7 @@
 				CODE_SIGN_ENTITLEMENTS = Placi/Placi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AX4FU8M856;
 				INFOPLIST_FILE = Placi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -714,7 +713,7 @@
 				CODE_SIGN_ENTITLEMENTS = Placi/Placi.entitlements;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AX4FU8M856;
 				INFOPLIST_FILE = Placi/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (

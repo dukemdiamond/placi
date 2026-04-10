@@ -122,7 +122,7 @@ struct ProfileView: View {
                         .font(.custom("Nunito-Bold", size: 15))
                         .frame(width: 160, height: 40)
                         .background(viewModel.isFollowing ? Color(.systemGray5) : Color("PlaciAccent"))
-                        .foregroundStyle(viewModel.isFollowing ? .primary : .white)
+                        .foregroundStyle(viewModel.isFollowing ? Color.primary : Color.white)
                         .clipShape(RoundedRectangle(cornerRadius: 20))
                 }
             }
